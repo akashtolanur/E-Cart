@@ -2,6 +2,8 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlmodel import Session, select
 from typing import List
 import uuid
+from agent import memory_graph
+from langchain_core.messages import HumanMessage
 
 from database import create_db_and_tables, engine
 from models import OrderStatus, Product, User, Order
@@ -166,3 +168,21 @@ async def stripe_webhook(request: Request, stripe_signature: str = Header(None),
                 db.commit()
 
     return {"status": "success"}
+
+class ChatRequest(BaseModel):
+    message: str
+
+@app.post("/chat/")
+def chat_with_agent(request: ChatRequest):
+    try:
+        # Run the LangGraph agent graph using the user's input message
+        result = memory_graph.invoke({"messages": [HumanMessage(content=request.message)]})
+        ai_response = result["messages"][-1].content
+        return {"response": ai_response}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/orders/user/{user_id}", response_model=List[Order])
+def get_user_orders(user_id: uuid.UUID, session: Session = Depends(get_session)):
+    orders = session.exec(select(Order).where(Order.user_id == user_id)).all()
+    return orders

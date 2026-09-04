@@ -4,6 +4,8 @@ import type { Product } from '@/api/products';
 import { ProductCard } from '@/components/ProductCard';
 import { LoginButton } from '@/components/LoginButton';
 import { CartDrawer } from '@/components/CartDrawer';
+import { ChatWidget } from '@/components/ChatWidget';
+import { OrderHistoryDialog } from '@/components/OrderHistoryDialog';
 
 export function ProductListingPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -26,8 +28,9 @@ export function ProductListingPage() {
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <header className="sticky top-0 z-10 border-b bg-white/80 backdrop-blur">
         <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <h1 className="text-xl font-bold tracking-tight">Mini E-Commerce</h1>
-          <div className="flex items-center gap-6">
+          <h1 className="text-xl font-bold tracking-tight">E-CART</h1>
+          <div className="flex items-center gap-4">
+            <OrderHistoryDialog />
             <LoginButton />
             <CartDrawer />
           </div>
@@ -69,6 +72,7 @@ export function ProductListingPage() {
           </div>
         )}
       </main>
+      <ChatWidget />
     </div>
   );
 }

@@ -51,7 +51,7 @@ export function CartDrawer() {
                 <ShoppingBag className="h-4 w-4" />
                 <span>{items.length} items</span>
             </Button>} />
-            <SheetContent className="w-full sm:max-w-lg">
+            <SheetContent className="w-full px-4 sm:max-w-lg">
                 <SheetHeader>
                     <SheetTitle>Your Cart</SheetTitle>
                 </SheetHeader>
