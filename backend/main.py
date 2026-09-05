@@ -23,7 +23,11 @@ app = FastAPI(title="AI E-Commerce API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://e-cart-three-dun.vercel.app/","http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://e-cart-three-dun.vercel.app",
+        "https://e-cart-k43t6fi5e-akashtolanurs-projects.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
