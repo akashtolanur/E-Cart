@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Clock } from 'lucide-react';
+import { API_BASE_URL } from '@/api/products';
 
 interface Order {
   id: string;
@@ -23,9 +24,7 @@ export function OrderHistoryDialog() {
     if (!open || !user) return;
 
     setLoading(true);
-    const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-
-    fetch(`${apiBase}/orders/user/${user.id}`, {
+    fetch(`${API_BASE_URL}/orders/user/${user.id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -3,6 +3,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { ShoppingBag, X } from 'lucide-react';
+import { API_BASE_URL } from '@/api/products';
 
 export function CartDrawer() {
     const { items, removeItem, totalAmount } = useCartStore();
@@ -13,10 +14,8 @@ export function CartDrawer() {
             alert("Please sign in with Google first to checkout.");
             return;
         }
-
         try {
-            // 1. Create the Order in the database
-            const orderRes = await fetch('http://localhost:8000/orders/', {
+            const orderRes = await fetch(`${API_BASE_URL}/orders/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,21 +23,17 @@ export function CartDrawer() {
                 },
                 body: JSON.stringify({
                     user_id: user.id,
-                    product_id: items[0].product_id, // Simplified for single-item checkout
+                    product_id: items[0].product_id,
                     quantity: items[0].quantity,
                     total_price: totalAmount(),
                 })
             });
             const order = await orderRes.json();
-
-            // 2. Trigger Stripe Checkout
-            const stripeRes = await fetch(`http://localhost:8000/orders/${order.id}/checkout-session`, {
+            const stripeRes = await fetch(`${API_BASE_URL}/orders/${order.id}/checkout-session`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const { checkout_url } = await stripeRes.json();
-
-            // Redirect user to Stripe's hosted checkout
             window.location.href = checkout_url;
         } catch (error) {
             console.error("Checkout failed", error);

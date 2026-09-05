@@ -39,7 +39,6 @@ export function ProductListingPage() {
         </div>
       </header>
 
-      {/* Main Grid */}
       <main className="container mx-auto max-w-6xl px-4 py-8">
         <div className="mb-6">
           <h2 className="text-2xl font-bold">Products</h2>

@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PlusCircle } from 'lucide-react';
+import { API_BASE_URL } from '@/api/products';
 
 interface AdminProductDialogProps {
   onProductCreated?: () => void;
@@ -17,17 +18,14 @@ export function AdminProductDialog({ onProductCreated }: AdminProductDialogProps
   const [stock, setStock] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Render nothing if user is not an admin
   if (user?.role !== 'admin') return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    const apiBase = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-
     try {
-      const res = await fetch(`${apiBase}/products/`, {
+      const res = await fetch(`${API_BASE_URL}/products/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

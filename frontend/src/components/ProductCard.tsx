@@ -52,7 +52,6 @@ export function ProductCard({ product }: ProductCardProps) {
         </CardFooter>
       </Card>
 
-      {/* Product Details Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
