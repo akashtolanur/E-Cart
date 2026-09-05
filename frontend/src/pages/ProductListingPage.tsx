@@ -6,6 +6,7 @@ import { LoginButton } from '@/components/LoginButton';
 import { CartDrawer } from '@/components/CartDrawer';
 import { ChatWidget } from '@/components/ChatWidget';
 import { OrderHistoryDialog } from '@/components/OrderHistoryDialog';
+import { AdminProductDialog } from '@/components/AdminProductDialog';
 
 export function ProductListingPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,6 +31,7 @@ export function ProductListingPage() {
         <div className="container mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           <h1 className="text-xl font-bold tracking-tight">E-CART</h1>
           <div className="flex items-center gap-4">
+            <AdminProductDialog onProductCreated={fetchProducts} />
             <OrderHistoryDialog />
             <LoginButton />
             <CartDrawer />

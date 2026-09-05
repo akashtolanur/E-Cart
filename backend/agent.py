@@ -13,6 +13,7 @@ from database import engine
 from models import Product, Order
 
 load_dotenv()
+groq_key = os.getenv("GROQ_API_KEY")
 
 # Define the state graph structure
 class State(TypedDict):
@@ -40,12 +41,11 @@ def get_order_status(order_id: str) -> str:
 
 tools = [get_shop_products, get_order_status]
 
-# Groq OpenAI-compatible model with active model ID
 model = ChatOpenAI(
-    model="llama-3.3-70b-versatile",
-    api_key=os.getenv("GROQ_API_KEY"),
+    model="openai/gpt-oss-120b",
+    api_key=groq_key,
     base_url="https://api.groq.com/openai/v1",
-    temperature=0
+    temperature=0,
 ).bind_tools(tools)
 
 # Define chatbot node
